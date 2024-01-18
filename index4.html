@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MUSIC PLAYER</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right,#9a1d86, #1595be);
+            text-align: center;
+            /* background-color: #f4f4f4; */
+            /* background-color: #fff; */
+            
+        }
+
+        .container2 {
+            width: 80%;
+            border: 5px solid ;
+            border-radius: 30px;
+            margin: auto;
+            border-color:#1d9a85;
+            background: linear-gradient(to right, #1595be,#9a1d86);
+            /* margin-top: 100px; */
+            height: 550px;
+            padding: 30px;
+            /* background-color: #fff; */
+        }
+
+        .right-div{
+            /* border: 2px solid black;
+            width: fit-content; */
+            /* border-radius: 30px; */
+            border-bottom-left-radius: 50px;
+            border-top-left-radius: 50px;
+            height: 100%;
+            /* background-color:#9a811d; */
+            background: linear-gradient(to right,#9a1d86, #1595be);
+            text-align: center;
+            justify-content: center;
+            align-items: centre;
+            overflow-y: scroll;
+
+        }
+
+
+        .left-div{
+            /* border-bottom-left-radius: 50px;
+            border-top-left-radius: 50px; */
+            height: 100%;
+
+        }
+
+        .left-div, .right-div {
+            width: 50%; 
+            float: left;
+            /* margin: 0 1%; */
+            padding: 20px;
+            box-sizing: border-box;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1,h3 {
+            color: #333;
+        }
+
+
+        #playlist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    }
+
+    #playlist li {
+    cursor: pointer;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+     }
+
+      #playlist li:hover {
+    background-color: #f0f0f0;
+    }
+    audio {
+    width: 100%;
+    margin-top: 100px;
+   }
+   .track-art {
+    margin: 25px;
+    margin: auto;
+    height: 150px ;
+    width: 150px;
+    border:2px solid 	#FFFAFA;
+    background: linear-gradient(to right,#9a1d86, #1595be);
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+    -moz-box-shadow: 0px 6px 5px black;
+    -webkit-box-shadow: 0px 6px 5px black;
+    box-shadow: 0px 6px 5px black;
+    -moz-border-radius:190px;
+    -webkit-border-radius:190px;
+    border-radius:190px;
+    }
+    
+    #currentSong {
+    margin-top: 20px;
+    border: 2px solid rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    padding: 5px;
+}
+
+#searchInput {
+    width: 200;
+    padding: 8px;
+    margin-bottom: 5px;
+    /* margin-bottom: 10px; */
+    /* box-sizing: border-box; */
+}
+
+
+audio {
+    width: 100%;
+    margin-top: 50px;
+}
+
+.controls {
+    margin-top: 40px;
+}
+
+button {
+    /* padding: 8px; */
+    
+    padding: 8px 16px;
+    height: 50PX;
+    width: 50px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+button:hover {
+    background-color: #ddd;
+}
+    </style>
+</head>
+<body>
+      
+    <div>
+        <h1>MUSIC PLAYER</h1>
+        <input type="text" id="searchInput" placeholder="Search for a song...">
+    </div>
+
+    <div class="container2">
+       
+        <div class="left-div">
+            <h1>JUST FEEL IT!!!</h1>
+            <div class="track-art"></div>
+
+            <div id="currentSong">Current Song: -</div>
+            <audio controls id="audioPlayer">
+                Your browser does not support the audio element.
+            </audio>
+
+            <div class="controls">
+                <button id="prevBtn">&#8249;</button>
+                <button id="nextBtn">&#8250;</button> 
+            </div>
+            <input type="checkbox" id="autoplayCheckbox"> Autoplay
+            <h3>  &#169;&nbsp;Lokesh</h3>
+        </div>
+
+
+        <div class="right-div">
+            <h2>PLAYLIST</h2>
+            <div class="container">
+                <ul id="playlist"></ul>
+           </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    const playlist = document.getElementById('playlist');
+    const audioPlayer = document.getElementById('audioPlayer');
+    const searchInput = document.getElementById('searchInput');
+    const currentSongDiv = document.getElementById('currentSong');
+    const autoplayCheckbox = document.getElementById('autoplayCheckbox');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    const songs = [
+        { title: '3 Peg', src: '1.mp3' },
+        { title: '7 janam', src: '2.mp3' },
+        { title: '8 Parche', src: '3.mp3' },
+        { title: 'Patola', src: '4.mp3' },
+        // { title: 'Song 1', src: '5.mp3' },
+        { title: 'Aam Dasehri', src: '6.mp3' },
+        { title: 'Hulara', src: '7.mp3' },
+        { title: 'Laad Piya Ke', src: '8.mp3' },
+        // { title: 'Song 1', src: '9.mp3' },
+        { title: 'Husan Haryana Ka', src: '10.mp3' },
+        { title: 'Teri Aakhya Ka yo Kajal', src: '11.mp3' },
+        { title: 'Dabya Ni Karde', src: '12.mp3' },
+        { title: 'Desi Haan Ji', src: '13.mp3' },
+        { title: 'Diamond', src: '14.mp3' },
+        { title: 'Evergreen', src: '15.mp3' },
+        { title: 'Farming', src: '16.mp3' },
+        { title: 'Hanuman Chalisa', src: '17.mp3' },
+        { title: 'Heart Beat', src: '18.mp3' },
+        { title: 'Gun Label', src: '19.mp3' },
+        { title: 'Jatt Sikka', src: '20.mp3' },
+        { title: 'Kadar', src: '21.mp3' },
+        { title: 'Kamli', src: '22.mp3' },
+        { title: 'Loot Liya', src: '23.mp3' },
+        { title: 'Mohtarama', src: '24.mp3' },
+        { title: 'Naam Tera', src: '25.mp3' },
+        { title: 'Parada', src: '26.mp3' },
+        { title: 'Saat Samundar', src: '27.mp3' },
+        { title: ' Teri Lat Lag Jayegi', src: '28.mp3' },
+        { title: 'Tukda Tu Mere Dil Ka', src: '29.mp3' },
+        { title: 'White Gold', src: '30.mp3' },
+        { title: 'Ham Katha Sunate', src: '31.mp3' },
+        // Add more songs as needed
+    ];
+
+    let currentIndex = 0;
+
+    // Populate playlist
+    songs.forEach((song, index) => {
+        const listItem = document.createElement('li');
+        listItem.textContent = song.title;
+        listItem.setAttribute('data-index', index);
+        playlist.appendChild(listItem);
+
+        listItem.addEventListener('click', function () {
+            const selectedIndex = parseInt(this.getAttribute('data-index'));
+            playSong(selectedIndex);
+        });
+    });
+
+    function playSong(index) {
+        currentIndex = index;
+        audioPlayer.src = songs[index].src;
+        audioPlayer.play();
+        updateCurrentSongDisplay();
+        audioPlayer.addEventListener('ended', function () {
+            if (autoplayCheckbox.checked) {
+                playNextSong();
+            }
+        });
+    }
+
+    function playNextSong() {
+        currentIndex = (currentIndex + 1) % songs.length;
+        playSong(currentIndex);
+    }
+
+    function playPrevSong() {
+        currentIndex = (currentIndex - 1 + songs.length) % songs.length;
+        playSong(currentIndex);
+    }
+
+    function updateCurrentSongDisplay() {
+        currentSongDiv.textContent = 'Current Song: ' + songs[currentIndex].title;
+    }
+
+    searchInput.addEventListener('input', function () {
+        const searchTerm = this.value.toLowerCase();
+        const filteredSongs = songs.filter(song => song.title.toLowerCase().includes(searchTerm));
+
+        // Clear playlist
+        playlist.innerHTML = '';
+
+        // Repopulate playlist with filtered songs
+        filteredSongs.forEach((song, index) => {
+            const listItem = document.createElement('li');
+            listItem.textContent = song.title;
+            listItem.setAttribute('data-index', index);
+            playlist.appendChild(listItem);
+
+            listItem.addEventListener('click', function () {
+                const selectedIndex = parseInt(this.getAttribute('data-index'));
+                playSong(selectedIndex);
+            });
+        });
+    });
+
+    prevBtn.addEventListener('click', playPrevSong);
+    nextBtn.addEventListener('click', playNextSong);
+});
+
+    </script>
+
+
+</body>
+</html>
